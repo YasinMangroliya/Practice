@@ -1,0 +1,165 @@
+<div class="row">
+  <div [ngClass]="{'col-md-3':!checkAdminRole()}"></div>
+  <div [ngClass]="{'col-md-6':!checkAdminRole()}">
+    <div class="card card-outline card-primary">
+      <div class="card-body">
+        <p class="login-box-msg">Register a new membership</p>
+        <form [formGroup]="userDetailForm">
+          <div class="col-12 text-center mb-3">
+            <img [src]="url" class="rounded-circle" height="100" width="100" />
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" (change)="onFileSelect($event);" class="custom-file-input" [ngClass]="cssValidation('profileImageFile')" id="customFile"
+                       formControlName="profileImageFile">
+                <label class="custom-file-label" for="customFile">
+                  {{selectedFileName}}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="userName" type="text" class="form-control" [ngClass]="cssValidation('userName')" placeholder="UserName" (change)="checkUniqueUserName()">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span [ngClass]="{'spinner-border spinner-border-sm':isLoading,'fas fa-envelope':!isLoading}"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="email" type="email" class="form-control" [ngClass]="cssValidation('email')" placeholder="Email">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="password" type="password" class="form-control" [ngClass]="cssValidation('password')" placeholder="Password">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="confirmPassword" type="password" class="form-control" [ngClass]="cssValidation('confirmPassword')" placeholder="ConfirmPassword">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" id="m" type="radio" value="M" formControlName="gender">
+                    <label class="form-check-label" for="m">Male</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input" id="f" type="radio" value="F" formControlName="gender">
+                    <label class="form-check-label" for="f">Female</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="birthDate" type="date" class="form-control" [ngClass]="cssValidation('birthDate')" placeholder="BirthDate">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-calendar"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="mobileNo" type="number" class="form-control" [ngClass]="cssValidation('mobileNo')" placeholder="Mobile Number">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-mobile"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <input formControlName="zipCode" type="number" class="form-control" [ngClass]="cssValidation('zipCode')" placeholder="ZipCode">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span>@</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group mb-3">
+                <select (change)="getStateList($event.target.value);" class="form-control" [ngClass]="cssValidation('countryId')" formControlName="countryId">
+                  <option value="0">Select Country</option>
+                  <option *ngFor="let c of countries" [value]=c.countryId>
+                    {{
+c.countryName
+                    }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group mb-3">
+                <select (change)="getCityList($event.target.value);" class="form-control" [ngClass]="cssValidation('stateId')" formControlName="stateId">
+                  <option value="0">Select State</option>
+                  <option *ngFor="let s of states" [value]=s.stateId>{{s.stateName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group mb-3">
+                <select class="form-control" [ngClass]="cssValidation('cityId')" formControlName="cityId">
+                  <option value="0">Select City</option>
+                  <option *ngFor="let ct of cities" [value]=ct.cityId>{{ct.cityName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="checkAdminRole()">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="isActive" class="custom-control-input custom-control-input-success" type="checkbox" id="customCheckbox4">
+                <label for="customCheckbox4" class="custom-control-label">IsActive</label>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="checkAdminRole()">
+
+            </div>
+            <div class="col-md-4" *ngIf="checkAdminRole()">
+              <div class="input-group mb-3">
+                <select class="form-control" formControlName="roleId">
+                  <option value="0">Select Role</option>
+                  <option *ngFor="let r of ddlRoles" [value]=r.roleId>{{r.roleName}}</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <a [routerLink]="['/Login']" *ngIf="!checkAdminRole()" class="text-center">I already have a membership</a>
+            </div>
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block" (click)="onSubmit()">Submit</button>
+            </div>
+          </div>
+          <app-validation-summary [form]="userDetailForm"></app-validation-summary>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

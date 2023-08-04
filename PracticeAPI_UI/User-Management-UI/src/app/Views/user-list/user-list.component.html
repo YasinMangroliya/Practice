@@ -1,0 +1,238 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6">
+            <h3 class="card-title">User Details List</h3>
+          </div>
+          <div class="col-2 float-right">
+            <div class="btn-group mr-1" dropdown>
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle"
+                      aria-controls="dropdown-basic">
+                Excel <span class="caret"></span>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                  role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" (click)="exportToExcel()">Export</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="exportToExcelAll()">Export All</a></li>
+              </ul>
+            </div>
+
+            <div class="btn-group" dropdown>
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle"
+                      aria-controls="dropdown-basic">
+                PDF <span class="caret"></span>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                  role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" (click)="exportToPdf()">Export</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="exportToPdfAll()">Export All</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group mb-2 float-right">
+              <div class="input-group input-group-sm" style="width: 150px;">
+                <select class="form-control mb-3" name="searchIn" [(ngModel)]="searchIn">
+                  <option *ngFor="let search of ddlSeacrchIn" [value]="search">
+                    {{search| titlecase }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group mb-2 float-right">
+              <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" [(ngModel)]="search" name="search" class="form-control float-right" placeholder="Search">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-default"
+                          (click)="onSearch()">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button type="button" class="btn btn-default" (click)="clearSearch()">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-4">
+            <label>Created Date</label>
+            <div class="row">
+              <div class="col-8 text-center">
+                <input type="date" [(ngModel)]="fromDate" name="fromDate" class="form-control" placeholder="Search">
+                <span>to</span>
+                <input type="date" [(ngModel)]="toDate" name="toDate" class="form-control" placeholder="Search">
+              </div>
+              <div class="col-4">
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <label>Location</label>
+            <div class="row">
+              <div class="col-4">
+                <Span>Country</Span>
+                <ngx-select [items]=countries optionValueField="countryId"
+                            optionTextField="countryName" [multiple]="true"
+                            [autoClearSearch]="true"
+                            (select)="onDDLSelect($event,'Country')"
+                            (remove)="onDDLRemove($event,'Country')"
+                            placeholder="SearchBy Country"
+                            [(ngModel)]="selectedCountries"></ngx-select>
+              </div>
+              <div class="col-4">
+                <Span>State</Span>
+                <ngx-select [items]=states
+                            optionValueField="stateId" optionTextField="stateName" [multiple]="true"
+                            [autoClearSearch]="true"
+                            (select)="onDDLSelect($event,'State')"
+                            (remove)="onDDLRemove($event,'State')"
+                            placeholder="SearchBy State"
+                            optGroupLabelField="countryName" optGroupOptionsField="stateData"
+                            [(ngModel)]="selectedStates"></ngx-select>
+              </div>
+              <div class="col-4">
+                <Span>City</Span>
+                <ngx-select [items]=cities optionValueField="cityId" optionTextField="cityName" [multiple]="true"
+                            [autoClearSearch]="true"
+                            (select)="onDDLSelect($event,'City')"
+                            (remove)="onDDLRemove($event,'City')"
+                            placeholder="SearchBy City"
+                            optGroupLabelField="stateName" optGroupOptionsField="cityData"
+                            [(ngModel)]="selectedCities"></ngx-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row  mb-2">
+          <div class="col-4">
+          </div>
+
+          <div class="col-2">
+            <button type="submit" class="btn btn-default btn-block" (click)="onReset()">Reset</button>
+          </div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-primary btn-block" (click)="onFilter()">Apply FIlter</button>
+          </div>
+          <div class="col-2">
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-block btn-success" (click)="onAddEditUser()">+ Add User</button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0" style="max-height: 1000px;">
+          <table class="table table-head-fixed text-nowrap" #content>
+            <thead>
+              <tr>
+                <th>Image </th>
+                <th (click)="changeSorting('userName')">
+                  UserName
+                  <i [ngClass]="setSortingIcon('userName')"></i>
+                </th>
+                <th (click)="changeSorting('gender')">
+                  Gender
+                  <i [ngClass]="setSortingIcon('gender')"></i>
+                </th>
+                <th (click)="changeSorting('email')">
+                  Email
+                  <i [ngClass]="setSortingIcon('email')"></i>
+                </th>
+                <th (click)="changeSorting('birthDate')">
+                  BirthDate
+                  <i [ngClass]="setSortingIcon('birthDate')"></i>
+                </th>
+                <th (click)="changeSorting('isActive')">
+                  IsActive
+                  <i [ngClass]="setSortingIcon('isActive')"></i>
+                </th>
+                <th (click)="changeSorting('address.countryName')">
+                  Country
+                  <i [ngClass]="setSortingIcon('address.countryName')"></i>
+                </th>
+                <th (click)="changeSorting('address.stateName')">
+                  State
+                  <i [ngClass]="setSortingIcon('address.stateName')"></i>
+                </th>
+                <th (click)="changeSorting('address.cityName')">
+                  City
+                  <i [ngClass]="setSortingIcon('address.cityName')"></i>
+                </th>
+                <th (click)="changeSorting('createdDate')">
+                  CreatedDate
+                  <i [ngClass]="setSortingIcon('createdDate')"></i>
+                </th>
+                <th (click)="changeSorting('loginAttemptDateTime')">
+                  LastLogin
+                  <i [ngClass]="setSortingIcon('loginAttemptDateTime')"></i>
+                </th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="lstUserDetails?.length === 0">
+                <tr>
+                  <td colspan="13" align="center" valign="top">No matching records found</td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngFor="let userDetail of lstUserDetails">
+                <tr>
+                  <td>
+                    <img src="{{'data:image/png;base64,'+ userDetail.profileImageBlob}}" class="rounded-circle" height="70" width="70" />
+                  </td>
+                  <td>{{userDetail.userName}}</td>
+                  <td>{{userDetail.gender}}</td>
+                  <td>{{userDetail.email}}</td>
+                  <td>{{userDetail.birthDate| date}}</td>
+                  <td class="text-center" [ngClass]="userDetail.isActive?'text-success':'text-danger'"><i [ngClass]="userDetail.isActive?'fas fa-check':'fas fa-times'"></i></td>
+
+                  <td>{{userDetail.address.countryName}}</td>
+                  <td>{{userDetail.address.stateName}}</td>
+                  <td>{{userDetail.address.cityName}}</td>
+                  <td>{{userDetail.createdDate| date: 'dd/MM/yyyy'}}</td>
+
+
+
+                  <!--<td>{{userDetail?.loginAttemptDateTime|timeago:live}}</td>-->
+                  <td timeago [date]="userDetail?.loginAttemptDateTime" [live]=false></td>
+                  <td colspan="3">
+                    <a class='fa fa-edit text-Primary' (click)="onAddEditUser(userDetail.userId)"></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class='fa fa-trash text-danger' style="cursor:pointer"
+                       (click)="onDelete(userDetail.userId)"></a>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <div class="float-left mt-2">
+            {{entriesLabel}}
+          </div>
+          <div class="float-right">
+            <pagination [boundaryLinks]="true" [totalItems]="paginationParams.totalCount"
+                        [itemsPerPage]="paginationParams.pageSize"
+                        [(ngModel)]="paginationParams.currentPage"
+                        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                        (pageChanged)="pageChanged($event)">
+            </pagination>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>
+
+
+
+<app-common-modal *ngIf='this.modalParams.Type == "Delete"' (confirmationModalEmitter)="modalEvent($event)" [modalParams]="modalParams"></app-common-modal>
+<app-common-modal *ngIf='this.modalParams.Type == "Register"' (confirmationModalEmitter)="modalEvent($event)" [modalParams]="modalParams"></app-common-modal>
+
+

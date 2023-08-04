@@ -165,11 +165,15 @@ export class UserListComponent implements OnInit {
       this.locationBy = LocationEnum.Country
       this.locationIds = this.selectedCountries.join(",")
     }
+    else
+      this.locationIds = this.locationBy = null
 
     if ((this.fromDate || this.toDate) && (!this.fromDate || !this.toDate)) {
       this.commonService.showWarning("Date Range Required", "Alert")
       return
     }
+
+
     this.getUserList(this.fromDate?.toLocaleString(), this.toDate?.toLocaleString(), this.locationIds, this.locationBy)
   }
   onReset() {

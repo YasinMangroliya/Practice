@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     sessionStorage.clear();
     this.renderer.addClass(document.body, 'loginBody');
-    console.log(this.commonService.previousPath);
   }
 
   login() {

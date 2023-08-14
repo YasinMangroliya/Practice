@@ -188,7 +188,7 @@ export class UserListComponent implements OnInit {
       this.commonService.showWarning("Please enter atleast 3 characters to search", "Search Criteria!");
       return;
     }
-    if (this.search == this.dataTableParams.SearchValue)
+    if (this.search == this.dataTableParams.SearchValue && this.searchIn == this.dataTableParams.SearchIn)
       return;
 
     this.lstUserDetails = [];

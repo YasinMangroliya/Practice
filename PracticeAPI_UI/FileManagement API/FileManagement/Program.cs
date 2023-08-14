@@ -5,7 +5,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.GetCORSConfiguration();
+//builder.GetCORSConfiguration();
 
 
 // Add services to the container.
@@ -24,13 +24,13 @@ string connectionString = builder.Configuration.GetConnectionString(builder.Envi
 var logger = builder.SerilogConfig(connectionString);
 
 builder.Host.UseSerilog();
-builder.GetAuthConfiguration();
+//builder.GetAuthConfiguration();
 builder.GetModelStateLogger(logger);
 
 
 var app = builder.Build();
 
-app.UseCors("AllowAllHeaders");
+//app.UseCors("AllowAllHeaders");
 app.UseSerilogRequestLogging();
 app.ConfigureExceptionHandler(logger);
 

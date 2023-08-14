@@ -115,6 +115,12 @@ export class CoredataService {
         next: (response) => { return success(response) },
         error: (err: any) => {
           console.error("Error:", err)
+          if (err?.error?.message) {
+            alert(err?.error?.message)
+          }
+          else {
+            alert("Internal Server Error")
+          }
         },
         //complete: () => { console.log('completed block'); }
       })

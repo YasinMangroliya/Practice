@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace UserManagement.Extentions
+namespace Gateway.Extentions
 {
     public static class AuthConfiguration
     {
@@ -22,8 +22,8 @@ namespace UserManagement.Extentions
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidAudience = builder.Configuration["JWT:Audiences"],
                     ValidIssuer = builder.Configuration["JWT:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
@@ -31,13 +31,6 @@ namespace UserManagement.Extentions
                 };
             });
 
-            //builder.Services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AdminOrCustomerPolicy", policy =>
-            //    {
-            //        policy.RequireClaim("role", "Admin","Customer");
-            //    });
-            //});
         }
     }
 }

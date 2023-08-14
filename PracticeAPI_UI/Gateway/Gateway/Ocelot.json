@@ -1,0 +1,60 @@
+{
+
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{path}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44304
+        }
+      ],
+      "UpstreamPathTemplate": "/usermanagement/{path}", //Ocelot Path
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "Role": "Admin"
+      //},
+      //"RateLimitOptions": { // to set limitation of api call amount incase of busy service
+      //  "ClientWhitelist": [], //To ignore rate limit for specified client
+      //  "EnableRateLimiting": true,
+      //  "Period": "10s",
+      //  "PeriodTimespan": 5, //to allow retry after X number of seconds if previos request completed it allow api call else it call after period time finish
+      //  "Limit": 1
+      //},
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 3
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/{path}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 21539
+        }
+      ],
+      "UpstreamPathTemplate": "/filemanagement/{path}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [], 
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 5,
+        "Limit": 1
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:1111",
+    "RateLimitOptions": {  
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Server is bussy!!!",
+      "HttpStatusCode": 999
+    }
+  }
+}

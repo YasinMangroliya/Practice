@@ -7,6 +7,7 @@ using Model;
 using Model.EFDataAccess;
 using Services;
 using System.Diagnostics.Metrics;
+using System.Security.Claims;
 
 namespace UserManagement.Controllers
 {
@@ -22,7 +23,7 @@ namespace UserManagement.Controllers
             _userService = userService;
         }
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = RoleEnum.Admin)]
+        [Authorize(Roles =("Admin,Customer"))]
         public async Task<IActionResult> GetAllUsers()
         {
             var userList = await _userService.GetAllUsers();

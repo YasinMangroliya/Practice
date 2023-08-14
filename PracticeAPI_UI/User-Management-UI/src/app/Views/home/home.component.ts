@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     this.renderer.addClass(document.body, 'sidebar-collapse');
 
     this.userService.logoutSubject.subscribe(val => {
+      console.log("subject run");
       if (val)
         this.onLogout()
     })
@@ -35,7 +36,6 @@ export class HomeComponent implements OnInit {
   onLogout() {
     let userId: number = +sessionStorage.getItem(SessionEnum.UserId)
     this.userService.logoutUser(userId, response => {
-      console.log(response);
       if (response > 0) {
         sessionStorage.clear()
         this.router.navigate([''])

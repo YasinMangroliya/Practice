@@ -26,7 +26,7 @@ namespace FileManagement.Controllers
         }
 
         [HttpGet("ExportUsers")]
-        public async Task<IActionResult> ExportUsers(bool isFrontEnd=true)
+        public async Task<IActionResult> ExportUsers()
         {
             ExternalApiHelper externalApiHelper = new ExternalApiHelper(jwtToken);
             string responseString = await externalApiHelper.GetAsync(ApiEndPointEnum.GetAllUsers);

@@ -46,7 +46,7 @@ namespace Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:TokenExpireInMinutes"])),
+                Expires = DateTime.UtcNow.AddDays(Convert.ToDouble(_configuration["Jwt:TokenExpireInMinutes"])),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

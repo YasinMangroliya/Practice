@@ -61,5 +61,10 @@ Angular
 	
   Export Data with Excel And Pdf For All Data
 	- Export Excel with ClosedXML 
-	- Export PDF with Itext7"
+	- Export PDF with Itext7
+	- Export Excel For Loaded Data in UI using exceljs
+	- Export PDF For Loaded Data in UI using jspdf ans html2canvas
+    - Save File using file-saver
+
+
 

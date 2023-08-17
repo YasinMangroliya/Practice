@@ -11,7 +11,7 @@ namespace UserManagement.Extentions
         {
             webApplicationBuilder.Services.AddDbContext<UserManagementContext>(options => options
             .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
-                .UseSqlServer(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking), ServiceLifetime.Scoped);
+                .UseSqlServer(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking), ServiceLifetime.Transient);
 
         }
     }

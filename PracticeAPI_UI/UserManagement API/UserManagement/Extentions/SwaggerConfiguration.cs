@@ -8,7 +8,7 @@ namespace UserManagement.Extentions
         {
             builder.Services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "User", Version = "v1" });
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "User Management", Version = "v1" });
                 opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,

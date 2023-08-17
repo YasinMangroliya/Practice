@@ -7,6 +7,7 @@ builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
+
 app.UseCors("AllowAllHeaders");
 
 app.UseAuthentication();

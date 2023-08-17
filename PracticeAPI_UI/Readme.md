@@ -28,8 +28,6 @@ Angular
 	- ng httploader
 	- ngx bootstrap 
 
-	- Can Deactivate Guard
-
  Common Modal Services
 	- Delete Confirmation Modal
 	- Modal Popup to add/edit users for Admin Role 

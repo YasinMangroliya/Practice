@@ -7,9 +7,7 @@ API (.net 6)
 -Model state logger to log invalid data entries with serilog
 -Swagger configration to Enable Authentication with token using swagger
 
-API Gateway Using Ocelot
-API Gateway Using YARP  
-
+API Gateway Using Ocelot & YARP
 
 Angular
 
